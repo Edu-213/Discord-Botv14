@@ -1,0 +1,2 @@
+BOT_TOKEN= Token do seu bot
+MONGO_URL= URL da sua mongo db
