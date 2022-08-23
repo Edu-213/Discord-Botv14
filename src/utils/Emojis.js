@@ -5,4 +5,5 @@ module.exports = {
     Lista: "📋",
     lamp: "💡",
     env: "📩",
+    adv: "⚠️",
 }
