@@ -1,8 +1,8 @@
 const Command = require('../../structures/Command');
-const { ActionRowBuilder, EmbedBuilder, ButtonBuilder, InteractionResponse  } = require("discord.js");
 const {salvatudo} = require("../../funcoes/funcoes");
 const warnModel = require("../../database/Schemas/warnModel");
-const Discord = require('discord.js')
+const ClientEmbed = require("../../utils/ClientEmbed")
+const Emojis = require("../../utils/Emojis")
 const moment = require('moment');
 moment.locale('pt-br');
 
@@ -10,12 +10,12 @@ module.exports = class warnlist extends Command {
     constructor(client) {
         super(client, {
             name: 'warnlist',
-            description: '[Moderação] Ver a lista de advertencia de um membro',
+            description: 'Ver a lista de advertência de um membro',
             options: [
                 {
                     name: 'membro',
                     type: 6,
-                    description: 'Coloque o usuário para as advertencias.',
+                    description: 'Coloque o usuário para as advertências.',
                     require: true,
                 },
             ]
@@ -31,15 +31,16 @@ module.exports = class warnlist extends Command {
         if(data.warnings.length == 0) return interaction.reply({content: `${interaction.user}, ${user} não possui advertências no servidor!`, ephemeral: true});
 
         const texto = data.warnings.map((warn, index) => `\n\
-        \n**Advertência #${index + 1}**
-        **Advertido por:** ${interaction.guild.members.cache.get(warn.moderador)}
+        \n**Advertido**
+        **Advertência #${index + 1}**
+        **Punido por:** ${interaction.guild.members.cache.get(warn.moderador)}
         **Motivo:** ${warn.motivo}
         **Data:** ${moment(warn.timestamp).format(" DD [de] MMMM, YYYY [ás] H:m")}`)
 
-        const embed = new EmbedBuilder()
-        .setTitle(`| Lista de Avertências`)
+        const embed = new ClientEmbed()
+        .setTitle(`${Emojis.adv} Lista de Avertências`)
         .setDescription(`${texto.join(" ")}`)
-
+        .setAuthor({name: user.username, iconURL: user.displayAvatarURL({ dynamic: true })})
         interaction.reply({embeds: [embed]})
     }
 }
