@@ -1,16 +1,14 @@
 const Command = require('../../structures/Command');
-const { ActionRowBuilder, EmbedBuilder, ButtonBuilder, InteractionResponse  } = require("discord.js");
 const {salvatudo} = require("../../funcoes/funcoes");
 const warnModel = require("../../database/Schemas/warnModel");
-const Discord = require('discord.js')
-const Emojis = require('../../utils/Emojis')
-const ClientEmbed = require('../../utils/ClientEmbed')
+const Emojis = require('../../utils/Emojis');
+const ClientEmbed = require('../../utils/ClientEmbed');
 
 module.exports = class warn extends Command {
     constructor(client) {
         super(client, {
             name: 'warn',
-            description: '[Moderação] Dar advertencia a um membro',
+            description: 'Dar advertencia a um membro',
             options: [
                 {
                     name: 'membro',
@@ -21,7 +19,7 @@ module.exports = class warn extends Command {
                 {
                     name: 'motivo',
                     type: 3,
-                    description: 'por qual motivo o membro está sendo advertido',
+                    description: 'Por qual motivo o membro está sendo advertido',
                     require: false
                 }
             ]
@@ -30,7 +28,7 @@ module.exports = class warn extends Command {
 
     run = async (interaction) => {
 
-    if (!interaction.member.permissions.has(Discord.PermissionFlagsBits.KickMembers)) return interaction.reply({content: `${interaction.user}, Você não possui a permissão \`Expulsar membros\` para poder utilizar este comando.`, ephemeral: true})
+    if (!interaction.member.permissions.has("KickMembers")) return interaction.reply({content: `${interaction.user}, Você não possui a permissão \`Expulsar membros\` para poder utilizar este comando.`, ephemeral: true})
     let user = interaction.options.getMember('membro');
     let motivo = interaction.options.getString('motivo')
 
@@ -41,7 +39,7 @@ module.exports = class warn extends Command {
     if (user.roles.highest.position) return interaction.reply({content: `${interaction.user}, Eu não posso punir este membro, meu cargo e menor que o do membro a ser punido!`, ephemeral: true});
 
         const aviso = new ClientEmbed() 
-        .setTitle(`${Emojis.Staff} | Nova Advertência`)
+        .setTitle(`${Emojis.adv} Nova Advertência`)
         .addFields(
           {
             name: "Membro:",
